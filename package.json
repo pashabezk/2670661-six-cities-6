@@ -2,6 +2,7 @@
   "name": "six-cities",
   "version": "14.0.0",
   "type": "module",
+  "homepage": "https://pashabezk.github.io/2670661-six-cities-6",
   "scripts": {
     "start": "vite",
     "build": "tsc && vite build",
