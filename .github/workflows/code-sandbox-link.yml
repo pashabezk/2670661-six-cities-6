@@ -19,13 +19,6 @@ jobs:
         id: sandbox
         run: echo "url=https://codesandbox.io/s/github/${{ github.event.pull_request.head.repo.full_name }}/tree/${{ github.head_ref }}" >> $GITHUB_OUTPUT
 
-      # way 1
-      - name: Comment PR
-        uses: thollander/actions-comment-pull-request@v3
-        with:
-          message: "${{steps.sandbox.outputs.url}}"
-
-      # way 2
       - name: Add PR Comment
         uses: actions/github-script@v6
         with:
