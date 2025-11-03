@@ -1,0 +1,32 @@
+name: 'Create CodeSandbox Link'
+
+# Триггер: запускать этот workflow при открытии PR или при добавлении новых коммитов в него
+on:
+  pull_request:
+    types: [ opened, synchronize ]
+
+jobs:
+  sandbox-link:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate Sandbox Link
+        id: sandbox
+        run: echo "url=https://codesandbox.io/s/github/${{ github.event.pull_request.head.repo.full_name }}/tree/${{ github.head_ref }}" >> $GITHUB_OUTPUT
+
+      # way 1
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          message: "${{steps.sandbox.outputs.url}}"
+
+      # way 2
+      - name: Add PR Comment
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: steps.sandbox.outputs.url
+            });
